@@ -1,0 +1,46 @@
+{
+  "name": "pact",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pact: an autonomous work agent. Give it a job, get the finished work back.",
+  "homepage": "https://runpact.family",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/runpactfamily/pact.git"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "node --import tsx --test \"tests/**/*.test.ts\"",
+    "check": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "cf:build": "node scripts/cf-build.mjs",
+    "cf:preview": "opennextjs-cloudflare preview",
+    "cf:deploy": "opennextjs-cloudflare deploy",
+    "cf:secrets": "node scripts/cf-secrets.mjs"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "mammoth": "^1.13.0",
+    "next": "^16.4.0",
+    "pdf-parse": "^2.4.5",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.9",
+    "@types/node": "^26.6.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.148.0"
+  }
+}

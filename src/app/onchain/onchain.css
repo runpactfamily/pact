@@ -1,0 +1,339 @@
+/* Pact Onchain: the same shell and paper as the app. What sets it apart is
+   the four chains, each carrying its own colour, and nothing else. */
+
+.shell--onchain {
+  --chain: var(--accent);
+}
+
+/* The wash reaches past the page edge; clip it so the page never scrolls sideways. */
+.shell--onchain .shell__main {
+  overflow-x: clip;
+}
+
+.shell--onchain .composer {
+  border-top: 3px solid var(--chain);
+}
+
+.shell--onchain .composer:focus-within {
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--chain) 18%, transparent),
+    0 30px 60px -38px rgba(23, 23, 23, 0.45);
+}
+
+.side__badge--onchain {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.topbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------- Home ---------- */
+
+/* The landing wash, in chain colours, behind the composer. The view sits above it. */
+.view--onchain > * {
+  position: relative;
+  z-index: 1;
+}
+
+.view--onchain > .wash--onchain {
+  position: absolute;
+  z-index: 0;
+  inset: calc(-1 * clamp(28px, 6vw, 88px)) calc(-1 * clamp(20px, 5vw, 72px)) auto auto;
+  width: min(62vw, 980px);
+  height: min(86vh, 800px);
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+.wash--onchain svg {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 860px) {
+  .view--onchain > .wash--onchain {
+    inset: calc(-1 * clamp(28px, 6vw, 88px)) -28% auto auto;
+    width: 110vw;
+    height: 60vh;
+    opacity: 0.75;
+  }
+}
+
+.onchain__kicker {
+  margin-bottom: 14px;
+  color: var(--ink-3);
+}
+
+.onchain__chainword {
+  color: var(--chain-ink, var(--chain));
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.1em;
+  text-decoration-color: color-mix(in srgb, var(--chain) 45%, transparent);
+  transition: color 0.25s var(--ease), text-decoration-color 0.25s var(--ease);
+}
+
+.onchain__note {
+  margin: 10px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-3);
+  max-width: 64ch;
+}
+
+/* ---------- Chain picker ---------- */
+
+.chains {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0 0 18px;
+}
+
+.chain {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink-2);
+  text-align: left;
+  transition:
+    border-color 0.2s var(--ease),
+    background-color 0.2s var(--ease),
+    color 0.2s var(--ease),
+    transform 0.2s var(--ease),
+    box-shadow 0.2s var(--ease);
+}
+
+.chain:hover {
+  border-color: var(--chain);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.chain.is-active {
+  border-color: var(--chain);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--chain) 9%, var(--surface));
+  box-shadow: inset 0 0 0 1px var(--chain);
+}
+
+.chain:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.chain__mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--stone-soft);
+}
+
+.chain.is-active .chain__mark {
+  background: color-mix(in srgb, var(--chain) 18%, var(--surface));
+}
+
+.chain__text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.chain__name {
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chain__status {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chain__status.is-full {
+  color: #15803d;
+}
+
+.chain__status.is-partial {
+  color: #b45309;
+}
+
+.chainchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  padding: 0 11px 0 9px;
+  margin-right: 2px;
+  border: 1px solid color-mix(in srgb, var(--chain) 55%, transparent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--chain) 10%, transparent);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* ---------- Sidebar chain status ---------- */
+
+.side__chains {
+  display: grid;
+  gap: 8px;
+  padding: 14px 8px 0;
+  border-top: 1px solid var(--line);
+}
+
+.side__chainslabel {
+  color: var(--ink-3);
+}
+
+.side__chains ul {
+  display: grid;
+  gap: 6px;
+}
+
+.side__chain {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 28px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+
+.side__chainname {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.side__chaindot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ink-3);
+}
+
+.side__chaindot.is-full {
+  background: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.16);
+}
+
+.side__chaindot.is-partial {
+  background: #d97706;
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.16);
+}
+
+/* ---------- Chain marks on run rows and run headers ---------- */
+
+.run__chain {
+  display: inline-grid;
+  place-items: center;
+  vertical-align: -2px;
+  margin-right: 8px;
+}
+
+.runhead__meta .chainchip {
+  height: 26px;
+  margin-left: 6px;
+  font-size: 10.5px;
+}
+
+@media (max-width: 900px) {
+  .chains {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .chain {
+    gap: 9px;
+    padding: 10px;
+  }
+
+  .chain__mark {
+    width: 30px;
+    height: 30px;
+  }
+
+  .chain__name {
+    font-size: 13.5px;
+  }
+
+  .chain__status {
+    font-size: 9.5px;
+    letter-spacing: 0.04em;
+  }
+
+  /* Narrow cards: let the name and status wrap instead of trailing off. */
+  .chain__name,
+  .chain__status {
+    white-space: normal;
+  }
+
+  .chainchip {
+    display: none;
+  }
+}
+
+/* The site's wash styles live in the marketing stylesheet; the onchain shell carries its own copy. */
+.wash--onchain {
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 96%), linear-gradient(to right, transparent 0, #000 22%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 96%), linear-gradient(to right, transparent 0, #000 22%);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+  animation: onchain-wash-in 1.6s var(--ease) both;
+}
+
+.wash--onchain svg {
+  display: block;
+  animation: onchain-wash-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes onchain-wash-in {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+}
+
+@keyframes onchain-wash-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-2%, 2%, 0) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wash--onchain,
+  .wash--onchain svg {
+    animation: none;
+  }
+}

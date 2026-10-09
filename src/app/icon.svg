@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Pact">
+  <defs>
+    <!-- The site's three oranges: #F2A27E (light), #E4572E (accent), #C9471F (deep). -->
+    <linearGradient id="pm-bar" gradientUnits="userSpaceOnUse" x1="14" y1="122" x2="190" y2="16">
+      <stop offset="0" stop-color="#F2A27E" />
+      <stop offset="0.5" stop-color="#EA7A50" />
+      <stop offset="1" stop-color="#E4572E" />
+    </linearGradient>
+    <linearGradient id="pm-under" gradientUnits="userSpaceOnUse" x1="0" y1="72" x2="0" y2="132">
+      <stop offset="0" stop-color="#C9471F" stop-opacity="0" />
+      <stop offset="0.14" stop-color="#C9471F" stop-opacity="0.9" />
+      <stop offset="1" stop-color="#C9471F" />
+    </linearGradient>
+    <linearGradient id="pm-underx" gradientUnits="userSpaceOnUse" x1="90" y1="0" x2="199" y2="0">
+      <stop offset="0" stop-color="#fff" />
+      <stop offset="1" stop-color="#fff" stop-opacity="0.25" />
+    </linearGradient>
+    <linearGradient id="pm-stem" gradientUnits="userSpaceOnUse" x1="52" y1="74" x2="36" y2="192">
+      <stop offset="0" stop-color="#E4572E" />
+      <stop offset="0.45" stop-color="#EC8358" />
+      <stop offset="1" stop-color="#F2A27E" />
+    </linearGradient>
+    <clipPath id="pm-barclip">
+      <path d="M0 106C0 93 5 83 13 75L64 22C71 15 80 11 90 11H177A22 22 0 0 1 199 33V72A58 58 0 0 1 141 130H0Z" />
+    </clipPath>
+    <mask id="pm-fade">
+      <rect x="0" y="0" width="200" height="200" fill="url(#pm-underx)" />
+    </mask>
+  </defs>
+  <!-- The ribbon's upper run, folding down from the top right. -->
+  <path d="M0 106C0 93 5 83 13 75L64 22C71 15 80 11 90 11H177A22 22 0 0 1 199 33V72A58 58 0 0 1 141 130H0Z" fill="url(#pm-bar)" />
+  <!-- Its underside, in the deep orange, where it turns back toward the stem. -->
+  <g clip-path="url(#pm-barclip)">
+    <rect x="0" y="66" width="200" height="70" fill="url(#pm-under)" mask="url(#pm-fade)" />
+  </g>
+  <!-- The stem, in front. -->
+  <path d="M0 108A34 34 0 0 1 34 74H90V135A56 56 0 0 1 34 191H0Z" fill="url(#pm-stem)" />
+</svg>

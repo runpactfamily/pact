@@ -1,0 +1,37 @@
+{
+  // Cloudflare Workers deployment of the Next.js app via @opennextjs/cloudflare.
+  // Secrets (API keys, Supabase) are uploaded with `npm run cf:secrets`, never written here.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "pact",
+  "main": "src/cloudflare/worker.ts",
+  "compatibility_date": "2026-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  // The site, the docs and Pact Onchain are one Worker; src/proxy.ts routes by host.
+  "routes": [
+    { "pattern": "runpact.family", "custom_domain": true },
+    { "pattern": "www.runpact.family", "custom_domain": true },
+    { "pattern": "docs.runpact.family", "custom_domain": true },
+    { "pattern": "onchain.runpact.family", "custom_domain": true }
+  ],
+  "observability": { "enabled": true },
+  // Runs execute inside a Durable Object (src/cloudflare/executor.ts): a Worker
+  // request may only outlive its response by 30 seconds, a DO alarm by 15 minutes.
+  "durable_objects": {
+    "bindings": [{ "name": "RUN_EXECUTOR", "class_name": "RunExecutor" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RunExecutor"] }],
+  "vars": {
+    "PACT_MODE": "production",
+    "PACT_STORAGE": "supabase",
+    "PACT_BLOBS": "supabase",
+    "LLM_TIMEOUT_MS": "90000",
+    "RUN_TIMEOUT_MS": "240000",
+    "ONCHAIN_HOST": "onchain.runpact.family",
+    "DOCS_HOST": "docs.runpact.family",
+    "SITE_HOST": "runpact.family"
+  }
+}
