@@ -82,8 +82,18 @@ export const txExplainTool: Tool<Input, Output> = {
         lines.push(`Token transfers (${transferLogs.length}):`);
         for (const l of transferLogs.slice(0, 12)) {
           const meta = metaOf(l.address);
-          const amount = fromUnits(hexToBigInt(l.data), meta?.decimals ?? 18);
-          lines.push(`- ${fmtNum(amount)} ${meta?.symbol ?? shortAddr(l.address)} from ${shortAddr(topicToAddress(l.topics[1]))} to ${shortAddr(topicToAddress(l.topics[2]))}`);
+          const decimals = meta?.decimals;
+          const token = meta?.symbol ?? shortAddr(l.address);
+          const from = shortAddr(topicToAddress(l.topics[1]));
+          const to = shortAddr(topicToAddress(l.topics[2]));
+          if (typeof decimals === "number" && Number.isInteger(decimals) && decimals >= 0 && decimals <= 255) {
+            const amount = fromUnits(hexToBigInt(l.data), decimals);
+            lines.push(`- ${fmtNum(amount)} ${token} from ${from} to ${to}`);
+          } else {
+            // Without usable decimals a token-unit amount would be a guess (and 18 is a bad default). Keep the exact integer.
+            const raw = hexToBigInt(l.data).toString();
+            lines.push(`- ${raw} raw units (decimals unavailable) ${token} from ${from} to ${to}`);
+          }
         }
       } else if (receipt) {
         lines.push(`No token transfers; ${receipt.logs.length} log${receipt.logs.length === 1 ? "" : "s"} emitted.`);
